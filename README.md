@@ -1,2 +1,2 @@
 # spring-pet-clinic
-Pet Clinic
+xyz.petclinic.springpetclinic.model.Pet Clinic
