@@ -3,11 +3,14 @@ package xyz.petclinic.springpetclinic.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import xyz.petclinic.springpetclinic.model.Owner;
+import xyz.petclinic.springpetclinic.model.Pet;
 import xyz.petclinic.springpetclinic.model.PetType;
 import xyz.petclinic.springpetclinic.model.Vet;
 import xyz.petclinic.springpetclinic.services.OwnerService;
 import xyz.petclinic.springpetclinic.services.PetTypeService;
 import xyz.petclinic.springpetclinic.services.VetService;
+
+import java.time.LocalDate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -35,21 +38,45 @@ public class DataLoader implements CommandLineRunner {
         Owner o1 = new Owner();
         o1.setFirstName("Michael");
         o1.setLastName("Weston");
+        o1.setAddress("123 Sesame Street");
+        o1.setCity("AAA");
+        o1.setTelephone("123345678");
+        Pet mikesPet = new Pet();
+        mikesPet.setPetType(saveDogPetType);
+        mikesPet.setOwner(o1);
+        mikesPet.setBirthDate(LocalDate.now());
+        mikesPet.setName("Rex");
+        o1.getPets().add(mikesPet);
         ownerService.save(o1);
 
         Owner o2 = new Owner();
         o2.setFirstName("Jim");
         o2.setLastName("Weston");
+        o2.setAddress("321 Sesame Street");
+        o2.setCity("AAA");
+        o2.setTelephone("123345678");
+        Pet fionasCat = new Pet();
+        fionasCat.setPetType(saveCatPetType);
+        fionasCat.setOwner(o2);
+        fionasCat.setBirthDate(LocalDate.now());
+        fionasCat.setName("Snowball");
+        o2.getPets().add(fionasCat);
         ownerService.save(o2);
 
         Owner o3 = new Owner();
         o3.setFirstName("Andrew");
         o3.setLastName("Weston");
+        o3.setAddress("1 Sesame Street");
+        o3.setCity("AAA");
+        o3.setTelephone("123345678");
         ownerService.save(o3);
 
         Owner o4 = new Owner();
         o4.setFirstName("John");
         o4.setLastName("Weston");
+        o4.setAddress("123 Sesame Street");
+        o4.setCity("AAA");
+        o4.setTelephone("123345678");
         ownerService.save(o4);
 
         Vet vet1 = new Vet();
