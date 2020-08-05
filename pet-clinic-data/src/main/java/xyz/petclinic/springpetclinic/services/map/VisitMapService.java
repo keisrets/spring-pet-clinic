@@ -2,10 +2,8 @@ package xyz.petclinic.springpetclinic.services.map;
 
 import org.springframework.stereotype.Service;
 import xyz.petclinic.springpetclinic.model.Visit;
-import xyz.petclinic.springpetclinic.repositories.VisitRepository;
 import xyz.petclinic.springpetclinic.services.VisitService;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -23,8 +21,9 @@ public class VisitMapService extends AbstractMapService<Visit, Long> implements 
 
     @Override
     public Visit save(Visit object) {
-        if(object.getPet() == null || object.getPet().getOwner() == null || object.getPet().getOwner().getId() == null)
-        throw new RuntimeException("Invalid visit");
+        if(object.getPet() == null || object.getPet().getOwner() == null || object.getPet().getOwner().getId() == null) {
+            throw new RuntimeException("Invalid visit");
+        }
 
         return super.save(object);
     }

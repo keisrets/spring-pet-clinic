@@ -3,10 +3,7 @@ package xyz.petclinic.springpetclinic.bootstrap;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import xyz.petclinic.springpetclinic.model.*;
-import xyz.petclinic.springpetclinic.services.OwnerService;
-import xyz.petclinic.springpetclinic.services.PetTypeService;
-import xyz.petclinic.springpetclinic.services.SpecialityService;
-import xyz.petclinic.springpetclinic.services.VetService;
+import xyz.petclinic.springpetclinic.services.*;
 
 import java.time.LocalDate;
 
@@ -17,12 +14,14 @@ public class DataLoader implements CommandLineRunner {
     private final VetService vetService;
     private final PetTypeService petTypeService;
     private final SpecialityService specialityService;
+    private final VisitService visitService;
 
-    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService) {
+    public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialityService specialityService, VisitService visitService) {
         this.ownerService = ownerService;
         this.vetService = vetService;
         this.petTypeService = petTypeService;
         this.specialityService = specialityService;
+        this.visitService = visitService;
     }
 
     @Override
@@ -69,6 +68,12 @@ public class DataLoader implements CommandLineRunner {
         fionasCat.setName("Snowball");
         o2.getPets().add(fionasCat);
         ownerService.save(o2);
+
+        Visit catVisit = new Visit();
+        catVisit.setPet(fionasCat);
+        catVisit.setDate(LocalDate.now());
+        catVisit.setDescription("X-ray");
+        visitService.save(catVisit);
 
         Owner o3 = new Owner();
         o3.setFirstName("Andrew");
