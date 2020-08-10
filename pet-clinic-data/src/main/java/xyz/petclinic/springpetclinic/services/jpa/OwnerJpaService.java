@@ -7,6 +7,7 @@ import xyz.petclinic.springpetclinic.repositories.OwnerRepository;
 import xyz.petclinic.springpetclinic.services.OwnerService;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -49,5 +50,10 @@ public class OwnerJpaService implements OwnerService {
     @Override
     public void deleteById(Long id) {
         ownerRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Owner> findAllByLastNameLike(String lastname) {
+        return ownerRepository.findAllByLastNameLike(lastname);
     }
 }
