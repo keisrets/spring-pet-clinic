@@ -1,5 +1,7 @@
 package xyz.petclinic.springpetclinic.model;
 
+import lombok.AllArgsConstructor;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,13 @@ public class BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
+    public BaseEntity() {
+    }
 
     public Long getId() {
         return id;
