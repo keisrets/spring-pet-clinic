@@ -12,12 +12,8 @@ import xyz.petclinic.springpetclinic.services.VisitService;
 import javax.validation.Valid;
 import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
-/**
- * Created by jt on 2018-09-27.
- */
 @Controller
 public class VisitController {
 
@@ -41,16 +37,6 @@ public class VisitController {
         });
     }
 
-    /**
-     * Called before each and every @RequestMapping annotated method.
-     * 2 goals:
-     * - Make sure we always have fresh data
-     * - Since we do not use the session scope, make sure that Pet object always has an id
-     * (Even though id is not part of the form fields)
-     *
-     * @param petId
-     * @return Pet
-     */
     @ModelAttribute("visit")
     public Visit loadPetWithVisit(@PathVariable("petId") Long petId, Map<String, Object> model) {
         Pet pet = petService.findById(petId);
@@ -61,13 +47,11 @@ public class VisitController {
         return visit;
     }
 
-    // Spring MVC calls method loadPetWithVisit(...) before initNewVisitForm is called
     @GetMapping("/owners/*/pets/{petId}/visits/new")
     public String initNewVisitForm(@PathVariable("petId") Long petId, Map<String, Object> model) {
         return "pet/createOrUpdateVisitForm";
     }
 
-    // Spring MVC calls method loadPetWithVisit(...) before processNewVisitForm is called
     @PostMapping("/owners/{ownerId}/pets/{petId}/visits/new")
     public String processNewVisitForm(@Valid Visit visit, BindingResult result) {
         if (result.hasErrors()) {
