@@ -29,19 +29,12 @@ class PetJpaServiceTest {
     PetJpaService service;
 
     Pet pet;
-    static Pet p1, p2;
     static Set<Pet> pets;
 
     @BeforeAll
     public static void beforeAll() {
-        p1 = new Pet();
-        p2 = new Pet();
-        p1.setId(2L);
-        p2.setId(3L);
-
         pets = new HashSet<>();
-        pets.add(p1);
-        pets.add(p2);
+        pets.add(new Pet());
     }
 
     @BeforeEach
@@ -56,8 +49,7 @@ class PetJpaServiceTest {
         when(petRepository.findAll()).thenReturn(pets);
         Set<Pet> result = service.findAll();
 
-        assertNotEquals(0, result.size());
-        assertEquals(2, result.size());
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -72,7 +64,7 @@ class PetJpaServiceTest {
     @Test
     void save() {
         when(petRepository.save(any())).thenReturn(pet);
-        Pet result = service.save(p1);
+        Pet result = service.save(new Pet());
 
         verify(petRepository).save(any());
         assertNotNull(result);

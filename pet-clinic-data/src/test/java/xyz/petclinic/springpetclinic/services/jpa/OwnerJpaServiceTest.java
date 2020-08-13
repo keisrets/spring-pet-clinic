@@ -1,16 +1,14 @@
 package xyz.petclinic.springpetclinic.services.jpa;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import xyz.petclinic.springpetclinic.model.Owner;
 import xyz.petclinic.springpetclinic.repositories.OwnerRepository;
-import xyz.petclinic.springpetclinic.repositories.PetRepository;
-import xyz.petclinic.springpetclinic.repositories.PetTypeRepository;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -26,41 +24,38 @@ class OwnerJpaServiceTest {
 
     @Mock
     OwnerRepository ownerRepository;
-    @Mock
-    PetRepository petRepository;
-    @Mock
-    PetTypeRepository petTypeRepository;
 
     @InjectMocks
     OwnerJpaService service;
 
-    Owner returnOwner;
+    Owner owner;
+    static Set<Owner> owners;
+
+    @BeforeAll
+    public static void beforeAll() {
+        owners = new HashSet<>();
+
+        owners.add(new Owner());
+        owners.add(new Owner());
+    }
 
     @BeforeEach
     void setUp() {
-        returnOwner = new Owner();
-        returnOwner.setId(1L);
-        returnOwner.setLastName("Smith");
+        owner = new Owner();
+        owner.setId(1L);
+        owner.setLastName("Smith");
     }
 
     @Test
     void findByLastName() {
-        when(ownerRepository.findByLastName(any())).thenReturn(returnOwner);
-        Owner o = service.findByLastName("Smith");
+        when(ownerRepository.findByLastName(any())).thenReturn(owner);
+        Owner o = service.findByLastName("Aaron");
 
         assertEquals("Smith", o.getLastName());
     }
 
     @Test
     void findAll() {
-        Set<Owner> owners = new HashSet<>();
-        Owner o1 = new Owner();
-        Owner o2 = new Owner();
-        o1.setId(1L);
-        o2.setId(2L);
-        owners.add(o1);
-        owners.add(o2);
-
         when(ownerRepository.findAll()).thenReturn(owners);
         Set<Owner> ownerSet = service.findAll();
 
@@ -70,25 +65,24 @@ class OwnerJpaServiceTest {
 
     @Test
     void findById() {
-        when(ownerRepository.findById(any())).thenReturn(Optional.of(returnOwner));
-        Owner o = service.findById(1L);
+        when(ownerRepository.findById(any())).thenReturn(Optional.of(owner));
+        Owner result = service.findById(1L);
 
-        assertNotNull(o);
+        assertNotNull(result);
+        verify(ownerRepository).findById(any());
     }
 
     @Test
     void save() {
-        Owner ownerToSave = new Owner();
-        ownerToSave.setId(1L);
-        when(ownerRepository.save(any())).thenReturn(returnOwner);
-        Owner savedOwner = service.save(ownerToSave);
+        when(ownerRepository.save(any())).thenReturn(owner);
+        Owner result = service.save(new Owner());
 
-        assertNotNull(savedOwner);
+        assertNotNull(result);
     }
 
     @Test
     void delete() {
-        service.delete(returnOwner);
+        service.delete(owner);
 
         verify(ownerRepository).delete(any());
     }
